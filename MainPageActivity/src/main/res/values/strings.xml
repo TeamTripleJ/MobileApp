@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CS</string>
+    <string-array name="names">
+        <item>Manage Account</item>
+        <item>Account Settings</item>
+        <item>Payment Settings</item>
+        <item>Support</item>
+        <item>Log Out</item>
+    </string-array>
+    <string name="really_long_string">Hi</string>
+</resources>
