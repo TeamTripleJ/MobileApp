@@ -3,6 +3,7 @@
 package com.example.user.calendar_test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.LinkAddress;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.R.attr.data;
 import static com.example.user.calendar_test.R.styleable.View;
@@ -36,9 +43,13 @@ public class MainActivity extends AppCompatActivity {
     public int q=0;
     String data;
     String finalstring;
+    int numberposts=0;
     TextView ATextView;
     RequestQueue requestQueue;
     String JsonURL="this text should be overridden";
+
+    Button NewPostButton;
+    Button HomeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,21 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        NewPostButton = (Button) findViewById(R.id.NewPostButton);
+        HomeButton = (Button) findViewById(R.id.HomeButton);
+
+        NewPostButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, EditPost.class));
+            }
+        });
+
+
+
+
         fillSchedule();
         System.out.println("now going to run the runnable");
 
@@ -53,17 +79,25 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         System.out.println("REQ QUEUE SET");
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
+
+
+
+        //Runnable r = new Runnable() {
+           // @Override
+           // public void run() {
                 System.out.println("Runnable was run");
                 //getData("https://aqueous-americans.000webhostapp.com/PostList.php");
                // getData2();
-                getDataBasicTest();
-            }
-        };
+               getPosts();
+                //InsertPost();
+                //System.out.println("post was inserted");
+                //getDataBasicTest();
+                //System.out.println(postContainer[0][1]);
+                //System.out.println(postContainer[1][1]);
+           // }
+        //};
 
-        r.run();
+        //r.run();
 
         //fillSchedule();
 
@@ -94,8 +128,10 @@ public class MainActivity extends AppCompatActivity {
                 //                            //
                 ////////////////////////////////
 
-                //String[][] PostList =getData("http://aqueous-americans.000webhostapp.com/PostList.php","000123");
 
+
+                //String[][] PostDataArray =getDataBasicTest();
+                //PostDataArray[1][3]="bleh";
 
 
                 for (int j = 0; j < 3; j++) {
@@ -108,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
                     LinearLayout post=(LinearLayout) PostContainer.findViewById(R.id.PostTextContainer);
                     post.setTag(1000+q);
+                    //set colors
                     post.setOnClickListener(new View.OnClickListener(){
                         public void onClick(View v){
                             System.out.println(v.getTag());
@@ -115,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
+
+            System.out.println("schedule was filled");
     }
 
 
@@ -295,23 +334,35 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(get);
     }
 
-    public void getDataBasicTest(){
+    public void getPosts(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://aqueous-americans.000webhostapp.com/PostList.php";
+       String url ="http://aqueous-americans.000webhostapp.com/1NewPostList.php";
+        //String url ="http://aqueous-americans.000webhostapp.com/1InsertPost.php";
+
+        final String results[][]= new String[100][5];
+
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("Response", response);
+                        System.out.println(response);
                         try {
+
 
                             JSONArray myArray = new JSONArray(response);
 
+                            //numberposts=myArray.length();
+
                             for(int i = 0; i < myArray.length(); i++) {
                                 JSONObject myObj = myArray.getJSONObject(i);
-                                String Header = myObj.getString("Header");
-                                System.out.println(Header);
+                                System.out.println(myObj.getString("Header"));
+                                System.out.println(myObj.getString("words"));
+                                System.out.println(myObj.getString("Time"));
+                                System.out.println(myObj.getString("network_type"));
+                                //System.out.println("being processed: "+results[i][1]);
                             }
 
                         } catch (JSONException e) {
@@ -319,13 +370,80 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-               System.out.println("volley error");
-            }
-        });
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                           System.out.println("volley error");
+                        }
+                }
+        ) {
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("userid","1");
+                    params.put("post_id","1");
+                    params.put("Time", "'2017-10-15 23:23:23'");
+                    params.put("action", "2");
+                    return params;
+                }
+        };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        //return results;
+    }
+
+    public void InsertPost(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        //String url ="http://aqueous-americans.000webhostapp.com/CreatePost.php";
+        String url ="http://aqueous-americans.000webhostapp.com/1InsertPost.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        //Log.d("Error.Response", response);
+                        System.out.println("error occured with update post method");
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("userid", "1");
+                params.put("timezone", "1");
+                params.put("words", "'helloworld once more'");
+                params.put("header", "'header here lol'");
+                params.put("photo_id", "1");
+                params.put("Time", "'2017-10-15 23:23:23'");
+                params.put("network_type", "'facebook'");
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+
+    public int[] getCurrentDateTime(){
+        int[] result=new int[3];
+
+        Calendar cal = Calendar.getInstance();
+        result[0]=cal.get(Calendar.DAY_OF_MONTH);
+        result[1]= cal.get(Calendar.MONTH);
+        result[2]= cal.get(Calendar.YEAR);
+
+        return result;
     }
 }
 
