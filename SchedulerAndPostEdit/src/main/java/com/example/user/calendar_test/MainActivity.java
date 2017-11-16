@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     TextView ATextView;
     RequestQueue requestQueue;
     String JsonURL="this text should be overridden";
+    boolean rState=false;
+    String test="asdasdasd";
 
     Button NewPostButton;
     Button HomeButton;
@@ -62,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
         NewPostButton = (Button) findViewById(R.id.NewPostButton);
         HomeButton = (Button) findViewById(R.id.HomeButton);
+        TextView ScheduleMonth = (TextView)findViewById(R.id.MonthTitle);
+        int result[] = getCurrentDateTime();
+
+        ScheduleMonth.setText(getMonth(result[1], false));
 
         NewPostButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -72,13 +80,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        fillSchedule();
-        System.out.println("now going to run the runnable");
 
         System.out.println("req queue being set");
         requestQueue = Volley.newRequestQueue(this);
         System.out.println("REQ QUEUE SET");
+        int date[]=getCurrentDateTime();
 
+        getPosts(date, 1);
+
+        System.out.println("now going to run the runnable");
 
 
 
@@ -88,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Runnable was run");
                 //getData("https://aqueous-americans.000webhostapp.com/PostList.php");
                // getData2();
-               getPosts();
+        // getPosts();
                 //InsertPost();
                 //System.out.println("post was inserted");
                 //getDataBasicTest();
@@ -111,237 +121,120 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void fillSchedule(){
-           //LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
+    public void fillSchedule(int date[], JSONArray PostArray){
+        //TODO: uncomment this, try this out to prevent excessive memory use
+        //LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
+
+        int userID= 1;
+
+        int oldDay=-1;
+        String newDate="nah";
+        View DayContainer = null;
+
+        if(PostArray!=null) {
+            System.out.println(PostArray.length());
+        }else{
+            System.out.println("nah fam its null");
+        }
+
+        for(int i = 0; i < PostArray.length(); i++) {
+
+            LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
+            try {
+
+                JSONObject PostObj = PostArray.getJSONObject(i);
+
+                //grab appropriate content form the query result for the post to be displayed
+                //first, get values for time
+                newDate=PostObj.getString("Time");
+                int postMonth= Integer.parseInt(newDate.substring(5,7));
+                int postDay = Integer.parseInt(newDate.substring(8,10));
+                int postHour = Integer.parseInt(newDate.substring(11,13));
+                int postMin = Integer.parseInt(newDate.substring(14,16));
+                String AMorPM = "not set";
+                if(postHour>=12){
+                    AMorPM="PM";
+                }else{
+                    AMorPM="AM";
+                }
+                String postHeader=PostObj.getString("Header");
+                String postBody=PostObj.getString("words");
+                String postNetwork=PostObj.getString("network_type");
+
+                //TODO: get media type for post
+
+                //trim the text of the content if it's too long to display
 
 
-            for(int i=0;i<5;i++) {
 
-                LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
-                View DayContainer = LayoutInflater.from(this).inflate(R.layout.day_container, scheduleList, false);
-                scheduleList.addView(DayContainer);
+                //if this post is on a separate day from the previous post in the scheduler,
+                // make a new day container.
+                if(postDay!=oldDay){
+                    DayContainer = LayoutInflater.from(this).inflate(R.layout.day_container, scheduleList, false);
+                    scheduleList.addView(DayContainer);
+
+                    TextView textDay = (TextView) DayContainer.findViewById(R.id.Day);
+                    TextView textMonth = (TextView) DayContainer.findViewById(R.id.Month);
+                    System.out.println(postDay);
+                    textDay.setText(Integer.toString(postDay));
+                    textMonth.setText(getMonth(postMonth, true));  //only first 3 letters of month are displayed in day container
+                }
+
+                //specifies what layout post elements should be added to,
+                // then adds a post to the current day container
                 LinearLayout postList = (LinearLayout) DayContainer.findViewById(R.id.PostCol);
+                View PostContainer = LayoutInflater.from(this).inflate(R.layout.post_container, postList, false);
+                postList.addView(PostContainer);
 
-                ////////////////////////////////
-                //                            //
-                //  GET DATA FROM QUERY HERE  //
-                //                            //
-                ////////////////////////////////
+                //get all the text objects and views of the new post element
+                LinearLayout post=(LinearLayout) PostContainer.findViewById(R.id.PostTextContainer);
+                FrameLayout postBG = (FrameLayout) PostContainer.findViewById(R.id.PostBackground);
+                TextView HeaderText = (TextView) PostContainer.findViewById(R.id.postHeader);
+                TextView BodyText = (TextView) PostContainer.findViewById(R.id.postBody);
+                ImageView NetworkIcon = (ImageView) PostContainer.findViewById(R.id.postNetworkIcon);
+                ImageView MediaTypeIcon = (ImageView) PostContainer.findViewById(R.id.postContentTypeIcon);
+
+                //now SET THE CONTENT OF THE POST CONTAINER
+                HeaderText.setText(postHeader);
+                BodyText.setText(postBody);
+
+                //if(postNetwork=="facebook"){
+                //    post.setBackgroundColor();
+                //}else if(postNetwork=="twitter"){
+                //
+                //}
+
+                //post ID is saved to tag, so that if it is clicked, the postID if clicked element is
+                //sent to the edit post along with the intent- this is queried by a method in Edit Post to get
+                //that post's data and display it, so it can be edited
+                //post.setTag(PostObj.getString("PostID"));
+
+                post.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View v){
+                    //System.out.println(v.getTag());
+                        startActivity(new Intent(MainActivity.this, EditPost.class));
+                    }
+                });
+
+                oldDay=postDay;
 
 
-
-                //String[][] PostDataArray =getDataBasicTest();
-                //PostDataArray[1][3]="bleh";
-
-
-                for (int j = 0; j < 3; j++) {
-                    //final LinearLayout postList = (LinearLayout) DayContainer.findViewById(R.id.PostCol);
-
-                    View PostContainer = LayoutInflater.from(this).inflate(R.layout.post_container, postList, false);
-
-                    postList.addView(PostContainer);
-                    q++;
-
-                    LinearLayout post=(LinearLayout) PostContainer.findViewById(R.id.PostTextContainer);
-                    post.setTag(1000+q);
-                    //set colors
-                    post.setOnClickListener(new View.OnClickListener(){
-                        public void onClick(View v){
-                            System.out.println(v.getTag());
-                        }
-                    });
-                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            System.out.println("schedule was filled");
+
+        }
+        System.out.println("schedule was filled");
     }
 
 
-    //THIS DOESN'T WORK DON'T USE
-    private void getData(String url) {
-        // URL of object to be parsed
-
-        //Uri.Builder builder = new Uri.Builder()
-        //        .appendQueryParameter("userid", userid);
-        //String URL = builder.build().getEncodedQuery();
-        //JsonURL = URL;
-            JsonURL=url;
-        System.out.println("JsonURL was set without issue");
-        //Runnable r = new Runnable() {
-
-            //@Override
-            //public void run() {
-                JsonArrayRequest arrayreq = new JsonArrayRequest(JsonURL,
-                        // The second parameter Listener overrides the method onResponse() and passes
-                        //JSONArray as a parameter
-
-                        new Response.Listener<JSONArray>() {
-                            // Takes the response from the JSON request
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                try {
-                                    System.out.println("OnResponse is being run...");
-                                    // Retrieves first JSON object in outer array
-                                    JSONObject colorObj = response.getJSONObject(0);
-
-                                    System.out.println("JSon object was retrieved");
-                                    // Retrieves "colorArray" from the JSON object
-                                    JSONArray colorArry = colorObj.getJSONArray("Header");
-                                    // Iterates through the JSON Array getting objects and adding them
-                                    //to the list view until there are no more objects in colorArray
-
-                                    //String[][] PostList = new String[colorArry.length()][6];
-
-                                    for (int i = 0; i < colorArry.length(); i++) {
-                                        //gets each JSON object within the JSON array
-                                        JSONObject jsonObject = colorArry.getJSONObject(i);
-
-                                        // Retrieves the string labeled "colorName" and "hexValue",
-                                        // and converts them into javascript objects
-
-                                        String Header = jsonObject.getString("Header");
-
-                                        // Adds strings from the current object to the data string
-                                        //spacing is included at the end to separate the results from
-                                        //one another
-                                        data += Header + "  nnn  ";
-                                    }
-
-
-                                }
-                                // Try and catch are included to handle any errors due to JSON
-                                catch (JSONException e) {
-                                    // If an error occurs, this prints the error to the log
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        // The final parameter overrides the method onErrorResponse() and passes VolleyError
-                        //as a parameter
-                        new Response.ErrorListener() {
-                            @Override
-                            // Handles errors that occur due to Volley
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("Volley", "Error");
-                            }
-                        }
-                );
-                // Adds the JSON array request "arrayreq" to the request queue
-                requestQueue.add(arrayreq);
-
-            //}
-
-            //Thread myThread = new Thread();
-            //myThread.start();
-        //};
-        //arrayreq.;
-
-        System.out.println(data);
-        System.out.println("ahahahahahah");
-
-
-    }
-
-
-    //THIS DOESN'T WORK DON'T USE
-    public void getData2(){
-        JsonURL = "https://raw.githubusercontent.com/ianbar20/JSON-Volley-Tutorial/master/Example-JSON-Files/Example-Array.JSON";
-        JsonArrayRequest arrayreq = new JsonArrayRequest(JsonURL,
-                // The second parameter Listener overrides the method onResponse() and passes
-                //JSONArray as a parameter
-                new Response.Listener<JSONArray>() {
-
-                    // Takes the response from the JSON request
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            // Retrieves first JSON object in outer array
-                            JSONObject colorObj = response.getJSONObject(0);
-                            // Retrieves "colorArray" from the JSON object
-                            JSONArray colorArry = colorObj.getJSONArray("colorArray");
-                            // Iterates through the JSON Array getting objects and adding them
-                            //to the list view until there are no more objects in colorArray
-                            for (int i = 0; i < colorArry.length(); i++) {
-                                //gets each JSON object within the JSON array
-                                JSONObject jsonObject = colorArry.getJSONObject(i);
-
-                                // Retrieves the string labeled "colorName" and "hexValue",
-                                // and converts them into javascript objects
-                                String color = jsonObject.getString("colorName");
-                                String hex = jsonObject.getString("hexValue");
-
-                                // Adds strings from the current object to the data string
-                                //spacing is included at the end to separate the results from
-                                //one another
-                                data += "Color Number " + (i + 1) + "nColor Name: " + color +
-                                        "nHex Value : " + hex + "nnn";
-                                System.out.println(data);
-                            }
-                            // Adds the data string to the TextView "results"
-                            finalstring=data;
-                        }
-                        // Try and catch are included to handle any errors due to JSON
-                        catch (JSONException e) {
-                            // If an error occurs, this prints the error to the log
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                // The final parameter overrides the method onErrorResponse() and passes VolleyError
-                //as a parameter
-                new Response.ErrorListener() {
-                    @Override
-                    // Handles errors that occur due to Volley
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("Volley", "Error");
-                    }
-                }
-        );
-        requestQueue.add(arrayreq);
-    }
-
-
-    //THIS DOESN'T WORK DON'T USE
-    public void getDataTest(){
-        String URL="http://aqueous-americans.000webhostapp.com/PostList.php";
-
-        StringRequest get = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray myArray = new JSONArray(response);
-
-                    for(int i = 0; i < myArray.length(); i++)
-                    {
-                        //JSONObject jObj = myArray.getJSONObject(i);
-                        // get your data here
-                        //String Header = jObj.getString("Header");
-                        System.out.println("here's a row");
-                    }
-                    System.out.println("lmao");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-               System.out.println("That didn't work!");
-            }
-        });
-        requestQueue.add(get);
-    }
-
-    public void getPosts(){
+    //public void getPosts(int[] date, int userID){
+    public void getPosts(int[] date, int userID){
         RequestQueue queue = Volley.newRequestQueue(this);
-       String url ="http://aqueous-americans.000webhostapp.com/1NewPostList.php";
-        //String url ="http://aqueous-americans.000webhostapp.com/1InsertPost.php";
-
-        final String results[][]= new String[100][5];
-
-
+        String url ="http://aqueous-americans.000webhostapp.com/1NewPostList.php";
+        //String url ="http://aqueous-americans.000webhostapp.com/1InsertPost.php"
+        final int[]input = date;
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -351,19 +244,16 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(response);
                         try {
 
-
                             JSONArray myArray = new JSONArray(response);
-
-                            //numberposts=myArray.length();
 
                             for(int i = 0; i < myArray.length(); i++) {
                                 JSONObject myObj = myArray.getJSONObject(i);
-                                System.out.println(myObj.getString("Header"));
-                                System.out.println(myObj.getString("words"));
-                                System.out.println(myObj.getString("Time"));
-                                System.out.println(myObj.getString("network_type"));
-                                //System.out.println("being processed: "+results[i][1]);
+                                //test=myObj.getString("Header");
+                                //System.out.println(test);
+                                //PostArray.put(myObj);
+                                test+=myObj.getString("Header");
                             }
+                            fillSchedule(input, myArray);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -381,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Map<String, String>  params = new HashMap<String, String>();
                     params.put("userid","1");
-                    params.put("post_id","1");
+                    //params.put("post_id","1");
                     params.put("Time", "'2017-10-15 23:23:23'");
                     params.put("action", "2");
                     return params;
@@ -390,6 +280,10 @@ public class MainActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
         //return results;
+
+
+
+        //return PostArray;
     }
 
     public void InsertPost(){
@@ -442,6 +336,30 @@ public class MainActivity extends AppCompatActivity {
         result[0]=cal.get(Calendar.DAY_OF_MONTH);
         result[1]= cal.get(Calendar.MONTH);
         result[2]= cal.get(Calendar.YEAR);
+
+        return result;
+    }
+
+    public String getMonth(int month, boolean shorten){
+        String result;
+        switch(month){
+            case 1: result= "JANUARY"; break;
+            case 2: result= "FEBRUARY"; break;
+            case 3: result= "MARCH"; break;
+            case 4: result= "APRIL"; break;
+            case 5: result= "MAY "; break;
+            case 6: result= "JUNE"; break;
+            case 7: result= "JULY"; break;
+            case 8: result= "AUGUST"; break;
+            case 9: result= "SEPTEMBER"; break;
+            case 10: result= "OCTOBER"; break;
+            case 11: result= "NOVEMBER"; break;
+            case 12: result= "DECEMBER"; break;
+            default: result= "ZZZ"; break;
+        }
+        if(shorten==true){
+            result=result.substring(0,3);
+        }
 
         return result;
     }
