@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.circlesuite.httpwww.cs.MainActivity">
+    android:visibility="visible"
+    tools:context="com.circlesuite.httpwww.tempspinner.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="61dp"
+        android:background="@android:color/holo_blue_light"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_gravity="left"
+        android:theme="?attr/actionBarTheme"
+        android:textColor="@android:color/white"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="parent"
@@ -22,107 +23,203 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/toolbar"
-            android:layout_alignStart="@+id/toolbar"
-            android:layout_below="@+id/toolbar"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:visibility="visible"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="51dp"
+        android:layout_height="30dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
+        />
 
     </android.support.v7.widget.Toolbar>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="88dp"
-        android:layout_height="61dp"
-        android:background="@android:color/background_light"
-        android:text="!"
-        android:textColor="#FFA500"
-        android:textSize="36sp"
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="0dp"
+        android:layout_height="175dp"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="56dp"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="31dp"
+        android:layout_marginEnd="31dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="148dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="-9dp" />
+        android:layout_marginLeft="31dp"
+        android:layout_marginRight="31dp">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="88dp"
-        android:layout_height="0dp"
-        android:background="@android:color/background_light"
-        android:text="+"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="36sp"
+        <LinearLayout
+            android:id="@+id/LinearLayout02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Button01"
+                android:layout_width="match_parent"
+                android:layout_height="61dp"
+                android:text="But1"></TextView>
+
+            <TextView
+                android:id="@+id/Button02"
+                android:layout_width="321dp"
+                android:layout_height="56dp"
+                android:text="But2"></TextView>
+
+            <TextView
+                android:id="@+id/Button03"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="But3"></TextView>
+            <TextView
+                android:id="@+id/Button07"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="But3"></TextView>
+            <TextView
+                android:id="@+id/Button08"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="But3"></TextView>
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/ScrollView02"
+        android:layout_width="0dp"
+        android:layout_height="201dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintVertical_bias="0.0" />
-    <LinearLayout
-        android:id="@+id/LinearLayout01"
-        android:layout_marginTop = "250dp"
-        android:layout_marginLeft ="100dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="27dp">
 
-        <ScrollView
-            android:id="@+id/ScrollView01"
-            android:layout_width="200dp"
-            android:layout_height="40dp">
+        <LinearLayout
+            android:id="@+id/LinearLayout03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/LinearLayout02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <TextView
+                android:id="@+id/Button04"
+                android:layout_width="329dp"
+                android:layout_height="47dp"
+                android:text="But1"></TextView>
 
-                <TextView
-                    android:id="@+id/Button01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="But1"></TextView>
+            <TextView
+                android:id="@+id/Button05"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="But2"></TextView>
 
-                <TextView
-                    android:id="@+id/Button02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="But2"></TextView>
+            <TextView
+                android:id="@+id/Button06"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="But3"></TextView>
+        </LinearLayout>
+    </ScrollView>
 
-                <TextView
-                    android:id="@+id/Button03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="But3"></TextView>
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/LinearLayout05"
-        android:layout_marginTop = "215dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recent Activity "
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/ScrollView01"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
-        android:id="@+id/plname"
-        android:layout_width="453dp"
-        android:layout_height="38dp"
-        android:ems="10"
-        android:text="                         Recent Activitys"
-        android:textColor="@android:color/darker_gray"
-         />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="News Feed"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/ScrollView01"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/ScrollView01"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/ScrollView01" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        app:layout_constraintBaseline_toBaselineOf="@+id/NewPost"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/toolbar" />
+
+    <Button
+        android:id="@+id/NewPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Post"
+        app:layout_constraintLeft_toRightOf="@+id/button6"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/Scheduler"
+        android:layout_width="91dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
+        android:text="Scheduler"
+        android:textSize="10sp"
+        android:onClick="GoSch"
+        app:layout_constraintLeft_toRightOf="@+id/NewPost"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:text="Refresh"
+        android:textSize="10sp"
+        app:layout_constraintRight_toRightOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="126dp"
+        android:layout_height="22dp"
+        android:text="Firstname"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/ScrollView01"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintTop_toBottomOf="@+id/button6"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="9dp" />
+
 </android.support.constraint.ConstraintLayout>
