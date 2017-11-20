@@ -1,5 +1,6 @@
 package com.circlesuite.httpwww.tempspinner;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,11 +42,13 @@ public class Main2Activity extends AppCompatActivity {
                 Content =mEdit.getText().toString();
                 mEdit   = (EditText)findViewById(R.id.editText5);
                 ScheduleTime =mEdit.getText().toString();
-                mEdit   = (EditText)findViewById(R.id.editText7);
-                PictureVideo =mEdit.getText().toString();
+                //mEdit   = (EditText)findViewById(R.id.editText7);
+                //PictureVideo =mEdit.getText().toString();
 
                 //mText = (TextView)findViewById(R.id.textView3);
                // mText.setText("Welcome "+mEdit.getText().toString()+"!");
+                Intent intent = new Intent( Main2Activity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
