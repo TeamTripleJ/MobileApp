@@ -1,6 +1,8 @@
 package com.circlesuite.httpwww.tempspinner;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -96,12 +98,6 @@ public class MainActivity extends AppCompatActivity {
                             //Intent i = new Intent(this, Main2Activity.class);
                             Intent intent = new Intent(MainActivity.this, ManageAcc.class);
                             startActivity(intent);
-                        } else if (new String("Payment Settings").equals(mySpinner.getSelectedItem().toString())) {
-                            System.out.println(mySpinner.getSelectedItem().toString());
-                            Toast.makeText(MainActivity.this,
-                                    "Payment Settings button was clicked",
-                                    Toast.LENGTH_SHORT)
-                                    .show();
                         } else if (new String("Support").equals(mySpinner.getSelectedItem().toString())) {
                             System.out.println(mySpinner.getSelectedItem().toString());
                             Toast.makeText(MainActivity.this,
@@ -139,32 +135,72 @@ public class MainActivity extends AppCompatActivity {
     }
     public void getDataBasicTest(){
         RequestQueue queue = Volley.newRequestQueue(this);
-       String url ="http://aqueous-americans.000webhostapp.com/1NewPostList.php";
+       String url ="http://aqueous-americans.000webhostapp.com/1Feedlist.php";
        // String url ="http://aqueous-americans.000webhostapp.com/PostList.php";
         //System.out.println("entered get DataBasicTest");
+        System.out.println("in basic data test");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //Log.d("Response", response);
-                       // System.out.println(response);
+                        System.out.println("In response");
+                       System.out.println(response);
                         try {
-
+                            Resources res = getResources();
+                            Drawable bg= res.getDrawable(R.drawable.fb);
                             JSONArray myArray = new JSONArray(response);
                             for(int i = 0; i < myArray.length(); i++) {
 
                                 JSONObject myObj = myArray.getJSONObject(i);
-                                String Header = myObj.getString("Header");
+                                String network_type	 = myObj.getString("network_type");
+                                String T	= myObj.getString("T");
+                                String activity	= myObj.getString("activity");
+                                String title	= myObj.getString("title");
+                                if(network_type.contentEquals("Facebook"))
+                                {
+                                    bg= res.getDrawable(R.drawable.fb);
+                                }
+                                else if(network_type.contentEquals("Twitter"))
+                                {
+                                    bg= res.getDrawable(R.drawable.t);
+                                }
+                                else if(network_type.contentEquals("Linkedin"))
+                                {
+                                    bg= res.getDrawable(R.drawable.lin);
+                                }
+                                else if(network_type.contentEquals("Instagram"))
+                                {
+                                    bg= res.getDrawable(R.drawable.ig);
+                                }
                                 //System.out.println(Header);
                                 if (i == 0) {
                                     tempost = (TextView) findViewById(R.id.Button01);
-                                    tempost.setText(Header);
+                                    tempost.setBackground(bg);
+                                    tempost.setText("At "+T+" "+activity+"\n                                    "+ title);
                                 }
                                 if (i == 1) {
                                     tempost = (TextView) findViewById(R.id.Button02);
-                                    tempost.setText(Header);
+                                    tempost.setBackground(bg);
+                                    tempost.setText("At "+T+" "+activity+"\n                                    "+ title);
                                 }
+                                if (i == 2) {
+                                    tempost = (TextView) findViewById(R.id.Button03);
+                                    tempost.setBackground(bg);
+                                    tempost.setText("At "+T+" "+activity+"\n                                    "+ title);
+                                }
+                                if (i == 3) {
+                                    tempost = (TextView) findViewById(R.id.Button07);
+                                    tempost.setBackground(bg);
+                                    tempost.setText("At "+T+" "+activity+"\n                                    "+ title);
 
+                                }
+                                if (i == 4) {
+                                    tempost = (TextView) findViewById(R.id.Button08);
+                                    tempost.setBackground(bg);
+                                    tempost.setText("At "+T+" "+activity+"\n                                    "+ title);
+
+                                }
                             }
 
 
@@ -184,9 +220,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("userid","1");
-                //params.put("post_id","1");
-                params.put("Time", "'2017-10-15 23:23:23'");
-                params.put("action", "2");
+                //params.put("post_id","1")
                 return params;
             }
         };

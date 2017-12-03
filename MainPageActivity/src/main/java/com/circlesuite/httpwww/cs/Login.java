@@ -49,13 +49,14 @@ public class Login extends AppCompatActivity {
                         pw  = (EditText)findViewById(R.id.editText6);
                         password=pw.getText().toString();
                         // System.out.println("Running");
-                            System.out.println("Loging In");
+                            //System.out.println("Loging In");
                             getDataBasicTest();
-                            if(name!=null) {
+                            if(name!=null)
+                            {
                                 intent.putExtra("username", username);
                                 intent.putExtra("password", password);
                                 intent.putExtra("name", name);
-                                System.out.println(name);
+                               // System.out.println(name);
                                 startActivity(intent);
                             }
                             else
@@ -75,8 +76,6 @@ public class Login extends AppCompatActivity {
 
         });
     }
-
-
     public void getDataBasicTest(){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="http://aqueous-americans.000webhostapp.com/Login.php";
@@ -87,14 +86,13 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //Log.d("Response", response);
-                        // System.out.println(response);
+                        System.out.println(response);
                         try {
                             if(response!=null) {
                                 JSONObject myObj = new JSONObject(response);
-                                System.out.println(response);
+                               // System.out.println(response);
                                 name = myObj.getString("fullname");
-                                System.out.println(myObj.getString("fullname"));
-
+                              //  System.out.println(myObj.getString("fullname"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

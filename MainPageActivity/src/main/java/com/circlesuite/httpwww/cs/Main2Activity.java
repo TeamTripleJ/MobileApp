@@ -28,6 +28,7 @@ public class Main2Activity extends AppCompatActivity {
     String Content;
     String ScheduleTime;
     String PictureVideo;
+    String res="N";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,13 @@ public class Main2Activity extends AppCompatActivity {
                 ScheduleTime =mEdit.getText().toString();
                 //mEdit   = (EditText)findViewById(R.id.editText7);
                 //PictureVideo =mEdit.getText().toString();
-
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        InsertPost();
+                    }
+                };
+                r.run();
                 //mText = (TextView)findViewById(R.id.textView3);
                // mText.setText("Welcome "+mEdit.getText().toString()+"!");
                 Intent intent = new Intent( Main2Activity.this, MainActivity.class);
@@ -65,6 +72,7 @@ public class Main2Activity extends AppCompatActivity {
                         // response
                         Log.d("Response", response);
                         System.out.println(response);
+
                     }
                 },
                 new Response.ErrorListener()
