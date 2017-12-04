@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     String password;
     String name;
     TextView firstname;
+    JSONArray myArray;
+    int LFV=0;// the last feed value
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
             firstname   = (TextView) findViewById(R.id.Name);
             firstname.setText(name);
         }
-        Runnable r2 = new Runnable() {
-            public void run() {
+
 
                 myToolbar = (Toolbar) findViewById(R.id.toolbar);
                 mySpinner = (Spinner) findViewById(R.id.spinner);
@@ -119,19 +120,173 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-            }
-        };
-        r2.run();
+
+
         //System.out.println("Entering Runnable");
         Runnable r = new Runnable() {
             @Override
             public void run() {
                // System.out.println("Running");
                 getDataBasicTest();
+                Button button = (Button)findViewById(R.id.button8);
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // Code here executes on main thread after user presses button
+                        getOlderPosts();
+                    }
+                });
                 }
 
         };
         r.run();
+    }
+    public void getOlderPosts() {
+        if (LFV == myArray.length()) {
+            LFV=0;
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "http://aqueous-americans.000webhostapp.com/1Feedlist.php";
+            // String url ="http://aqueous-americans.000webhostapp.com/PostList.php";
+            //System.out.println("entered get DataBasicTest");
+          //  System.out.println("in basic data test");
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //Log.d("Response", response);
+                           // System.out.println("In response");
+                            //System.out.println(response);
+                            try {
+                                Resources res = getResources();
+                                Drawable bg = res.getDrawable(R.drawable.fb);
+                                myArray = new JSONArray(response);
+                                for (int i = 0; i < 5; i++) {
+                                    JSONObject myObj = myArray.getJSONObject(i);
+                                    String network_type = myObj.getString("network_type");
+                                    String T = myObj.getString("T");
+                                    String activity = myObj.getString("activity");
+                                    String title = myObj.getString("title");
+                                    if (network_type.contentEquals("Facebook")) {
+                                        bg = res.getDrawable(R.drawable.fb);
+                                    } else if (network_type.contentEquals("Twitter")) {
+                                        bg = res.getDrawable(R.drawable.t);
+                                    } else if (network_type.contentEquals("Linkedin")) {
+                                        bg = res.getDrawable(R.drawable.lin);
+                                    } else if (network_type.contentEquals("Instagram")) {
+                                        bg = res.getDrawable(R.drawable.ig);
+                                    }
+                                    //System.out.println(Header);
+                                    if (i == 0) {
+                                        tempost = (TextView) findViewById(R.id.Button01);
+                                        tempost.setBackground(bg);
+                                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+                                    }
+                                    if (i == 1) {
+                                        tempost = (TextView) findViewById(R.id.Button02);
+                                        tempost.setBackground(bg);
+                                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+                                    }
+                                    if (i == 2) {
+                                        tempost = (TextView) findViewById(R.id.Button03);
+                                        tempost.setBackground(bg);
+                                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+                                    }
+                                    if (i == 3) {
+                                        tempost = (TextView) findViewById(R.id.Button07);
+                                        tempost.setBackground(bg);
+                                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+
+                                    }
+                                    if (i == 4) {
+                                        tempost = (TextView) findViewById(R.id.Button08);
+                                        tempost.setBackground(bg);
+                                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+
+                                    }
+                                    LFV = i;
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("volley error");
+                }
+            }
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("userid", "1");
+                    //params.put("post_id","1")
+                    return params;
+                }
+            };
+            // Add the request to the RequestQueue.
+            //System.out.println("Request Added");
+            queue.add(stringRequest);
+        }
+        else
+        {
+            try {
+                Resources res = getResources();
+                Drawable bg = res.getDrawable(R.drawable.fb);
+                for (int i = LFV; i < myArray.length()-1; i++) {
+                    System.out.println("LFV VALUE:"+LFV+"\n");
+                    System.out.println("i:"+i+"\n");
+                    JSONObject myObj = myArray.getJSONObject(i);
+                    String network_type = myObj.getString("network_type");
+                    String T = myObj.getString("T");
+                    String activity = myObj.getString("activity");
+                    String title = myObj.getString("title");
+                    if (network_type.contentEquals("Facebook")) {
+                        bg = res.getDrawable(R.drawable.fb);
+                    } else if (network_type.contentEquals("Twitter")) {
+                        bg = res.getDrawable(R.drawable.t);
+                    } else if (network_type.contentEquals("Linkedin")) {
+                        bg = res.getDrawable(R.drawable.lin);
+                    } else if (network_type.contentEquals("Instagram")) {
+                        bg = res.getDrawable(R.drawable.ig);
+                    }
+                    //System.out.println(Header);
+                    if (i == 5) {
+                        tempost = (TextView) findViewById(R.id.Button01);
+                        tempost.setBackground(bg);
+                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+                    }
+                    if (i == 6) {
+                        tempost = (TextView) findViewById(R.id.Button02);
+                        tempost.setBackground(bg);
+                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+                    }
+                    if (i == 7) {
+                        tempost = (TextView) findViewById(R.id.Button03);
+                        tempost.setBackground(bg);
+                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+                    }
+                    if (i == 8) {
+                        tempost = (TextView) findViewById(R.id.Button07);
+                        tempost.setBackground(bg);
+                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+
+                    }
+                    if (i == 9) {
+                        tempost = (TextView) findViewById(R.id.Button08);
+                        tempost.setBackground(bg);
+                        tempost.setText("At " + T + " " + activity + "\n                                    " + title);
+
+                    }
+                    LFV = i;
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
     public void getDataBasicTest(){
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -149,14 +304,13 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             Resources res = getResources();
                             Drawable bg= res.getDrawable(R.drawable.fb);
-                            JSONArray myArray = new JSONArray(response);
-                            for(int i = 0; i < myArray.length(); i++) {
-
+                            myArray = new JSONArray(response);
+                            for(int i = 0; i < 5; i++) {
                                 JSONObject myObj = myArray.getJSONObject(i);
                                 String network_type	 = myObj.getString("network_type");
-                                String T	= myObj.getString("T");
+                                String T= myObj.getString("T");
                                 String activity	= myObj.getString("activity");
-                                String title	= myObj.getString("title");
+                                String title = myObj.getString("title");
                                 if(network_type.contentEquals("Facebook"))
                                 {
                                     bg= res.getDrawable(R.drawable.fb);
@@ -201,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
                                     tempost.setText("At "+T+" "+activity+"\n                                    "+ title);
 
                                 }
+                                LFV=i;
                             }
 
 
