@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context="com.circlesuite.httpwww.tempspinner.NewScheduler"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="60dp"
+                android:layout_height="61dp"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_light"
+                android:minHeight="?attr/actionBarSize"
+                android:textColor="@android:color/white"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1">
+
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="54dp"
+                    android:layout_height="30dp"
+                    android:textColor="@android:color/white"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+            </android.support.v7.widget.Toolbar>
+
+            <ImageButton
+                android:id="@+id/btnHome"
+                android:layout_width="50dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                app:srcCompat="@drawable/home"
+                tools:layout_editor_absoluteX="91dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageButton
+                android:id="@+id/btnNewPost"
+                android:layout_width="50dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:backgroundTint="#ffffff"
+                app:srcCompat="@drawable/post"
+                tools:layout_editor_absoluteX="162dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageButton
+                android:id="@+id/btnScheduler"
+                android:layout_width="50dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                app:srcCompat="@drawable/schedule"
+                tools:layout_editor_absoluteX="233dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageButton
+                android:id="@+id/btnRefresh"
+                android:layout_width="50dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                app:srcCompat="@drawable/refresh"
+                tools:layout_editor_absoluteX="304dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorButtonNormal">
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:text="Scheduler"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorButtonNormal">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPrevMonth"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="bck" />
+
+            <TextView
+                android:id="@+id/MonthTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="16.97"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnNextMonth"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="fwd" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/monthTitle5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="16.97"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorButtonNormal"></FrameLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/MainHeader"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:id="@+id/ScheduleContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

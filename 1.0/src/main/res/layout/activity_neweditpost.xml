@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context="com.circlesuite.httpwww.tempspinner.NewEditPost"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="60dp"
+                android:layout_height="61dp"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_light"
+                android:minHeight="?attr/actionBarSize"
+                android:textColor="@android:color/white"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1">
+
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="54dp"
+                    android:layout_height="30dp"
+                    android:textColor="@android:color/white"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+            </android.support.v7.widget.Toolbar>
+
+            <ImageButton
+                android:id="@+id/btnHome"
+                android:layout_width="50dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                app:srcCompat="@drawable/home"
+                tools:layout_editor_absoluteX="91dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageButton
+                android:id="@+id/btnNewPost"
+                android:layout_width="50dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:backgroundTint="#ffffff"
+                app:srcCompat="@drawable/post"
+                tools:layout_editor_absoluteX="162dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageButton
+                android:id="@+id/btnScheduler"
+                android:layout_width="50dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                app:srcCompat="@drawable/schedule"
+                tools:layout_editor_absoluteX="233dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <ImageButton
+                android:id="@+id/btnRefresh"
+                android:layout_width="50dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                app:srcCompat="@drawable/refresh"
+                tools:layout_editor_absoluteX="304dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorButtonNormal">
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/NewOrEditScreenHeader"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:text="New Post"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorButtonNormal">
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Header"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/HeaderField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:ems="10"
+            android:hint="Put the title of your post here"
+            android:inputType="textPersonName"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textStyle="italic" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorButtonNormal">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="322dp"
+            android:layout_below="@+id/editText2"
+            android:weightSum="1"
+            android:layout_weight="1.52">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:weightSum="1"
+                android:layout_width="220dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="  Content"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/WordsField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.58"
+                    android:ems="10"
+                    android:hint="What do you want to say?"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textStyle="italic" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:background="?attr/colorButtonNormal">
+
+                </FrameLayout>
+
+                <TextView
+                    android:text="Scheduled Time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3" />
+
+                <EditText
+                    android:id="@+id/DateField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Post Date"
+                    android:inputType="textPersonName"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:background="?attr/colorButtonNormal">
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="0.93"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="167dp"
+                    android:layout_height="wrap_content"
+                    android:text="  Network"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:layout_width="169dp"
+                    android:layout_height="161dp"
+                    android:id="@+id/NetworkSelect" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:text="Submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SubmitPostButton" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

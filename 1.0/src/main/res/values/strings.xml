@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TempSpinner</string>
+    <string-array name="names">
+        <item>Account Settings</item>
+        <item>Support</item>
+        <item>Log Out</item>
+    </string-array>
+    <string name="really_long_string">Hi</string>
+</resources>
