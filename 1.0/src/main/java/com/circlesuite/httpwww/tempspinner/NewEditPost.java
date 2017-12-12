@@ -1,9 +1,13 @@
 package com.circlesuite.httpwww.tempspinner;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +34,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NewEditPost extends AppCompatActivity {
+    public static final int PICK_IMAGE=1;
     Toolbar myToolbar;
     Spinner mySpinner;
     int count =0;
@@ -184,21 +191,53 @@ public class NewEditPost extends AppCompatActivity {
 
                 Submit.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        if(behavior.equals("edit")) {
-
                             UpdatePost(SelectedPostID, Words.getText().toString(), Header.getText().toString(), Time.getText().toString(), "facebook", userID, username, password);
-
-                        }else {
-                            //InsertPost();
-                        }
                     }
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else{
+            Submit.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    InsertPost(Words.getText().toString(), Header.getText().toString(), Time.getText().toString(), "facebook", userID, username, password);
+                }
+            });
         }
+
+        ImageButton PostImageSelect = (ImageButton) findViewById(R.id.btnPostImageSelect);
+        PostImageSelect.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent imagepick = new Intent();
+                imagepick.setType("image/*");
+                imagepick.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(imagepick, "Select Picture"), PICK_IMAGE);
+            }
+        });
     }
 
+
+    //function for getting image from phone and loading onto the image button,
+    //as well as storing it as a bitmap
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == PICK_IMAGE) {
+            try {
+                Uri img = data.getData();
+                InputStream inputStream = getContentResolver().openInputStream(img);
+                Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
+
+                ImageButton PostImageSelect = (ImageButton) findViewById(R.id.btnPostImageSelect);
+                PostImageSelect.setImageURI(img);
+                PostImageSelect.setImageBitmap(imgBitmap);
+            }catch (Exception e){
+                Toast.makeText(this, "Error selecting picture", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void UpdatePost(final String selectedPostID, final String Words, final String Header, final String Time , final String NetworkType, final String uID, final String uName, final String pw) {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -248,12 +287,9 @@ public class NewEditPost extends AppCompatActivity {
         };
         queue.add(postRequest);
 
-        Toast.makeText(getApplicationContext(),"Post updated successfully!\n Post scheduled for ", Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(),"Post updated successfully!\n Post scheduled for "+Time, Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(NewEditPost.this, NewScheduler.class);
-        System.out.println("ID: "+uID);
-        System.out.println("UN:  "+uName);
-        System.out.println("PW:   "+pw);
         intent.putExtra("userID", uID);
         intent.putExtra("username", uName);
         intent.putExtra("password", pw);
@@ -263,11 +299,11 @@ public class NewEditPost extends AppCompatActivity {
     }
 
 
-    public void InsertPost(){
+    public void InsertPost(final String Words, final String Header, final String Time , final String NetworkType, final String uID, final String uName, final String pw){
         RequestQueue queue = Volley.newRequestQueue(this);
 
         //String url ="http://aqueous-americans.000webhostapp.com/CreatePost.php";
-        String url ="http://aqueous-americans.000webhostapp.com/1InsertPost.php";
+        String url ="http://cse120.xyz/1InsertPost.php";
 
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -294,20 +330,37 @@ public class NewEditPost extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("userid", "1");
+                params.put("userid", ""+uID+"");
                 params.put("timezone", "1");
-                params.put("words", "'helloworld once more'");
-                params.put("header", "'header here lol'");
+                params.put("words", "'"+Words+"'");
+                params.put("header", "'"+Header+"'");
                 params.put("photo_id", "1");
-                params.put("Time", "'2017-10-15 23:23:23'");
+                params.put("Time", "'"+Time+"'");
                 params.put("network_type", "'facebook'");
                 return params;
             }
         };
         queue.add(postRequest);
+        Toast.makeText(getApplicationContext(),"New post scheduled for "+Time, Toast.LENGTH_LONG).show();
     }
-        /////////////////////////////////////////////////////////////////////////////////////
 
+    //Functions for converting image files for transfer to and from server
 
+    private String ImgToString(Bitmap img){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bArray = baos.toByteArray();
+        return Base64.encodeToString(bArray, Base64.DEFAULT);
+    }
+
+    private Bitmap StringToImg(String input){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] imgString = Base64.decode(input.getBytes(), Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imgString, 0, imgString.length);
+
+    }
 
 }
+
+
+
