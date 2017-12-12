@@ -46,8 +46,7 @@ public class NewEditPost extends AppCompatActivity {
     ImageButton lin;
     ImageButton twit;
     ImageButton gram;
-    String username;
-    String password;
+
     String name;
     TextView firstname;
     //JSONArray myArray;
@@ -55,8 +54,14 @@ public class NewEditPost extends AppCompatActivity {
     @Override
 
     //TODO: Have a "Are you sure you want to leave? dialog box if user presses a button and any fields are full
+    //TODO: Network Selection
+    //TODO: Better, user-friendlier date picker
+    //TODO: Inserting a new post
+    //TODO: Set button to blue
 
-    //TODO: Insert a new post
+
+
+    //inserting post, uploading pictures
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,9 @@ public class NewEditPost extends AppCompatActivity {
         final String behavior = intent.getExtras().getString("behavior");
         final String password = intent.getExtras().getString("password");
         final String userID = intent.getExtras().getString("userID");
+
+
+
 
         System.out.println("successfully got intents");
 
@@ -161,11 +169,13 @@ public class NewEditPost extends AppCompatActivity {
         //text fields will be empty.
         //However, if this screen is reached from the Scheduler, then it will be "edit"
 
+        TextView ScreenHeader = (TextView) findViewById(R.id.NewOrEditScreenHeader);
 
         if (behavior.equals("edit")) {
             Submit.setText("Update Post");
+            ScreenHeader.setText("Edit Post");
             try {
-                JSONObject post = new JSONObject(getIntent().getStringExtra("Post"));
+                JSONObject post = new JSONObject(intent.getStringExtra("Post"));
                 Header.setText(post.getString("Header"));
                 Words.setText(post.getString("words"));
                 Time.setText(post.getString("Time"));
@@ -176,7 +186,7 @@ public class NewEditPost extends AppCompatActivity {
                     public void onClick(View v) {
                         if(behavior.equals("edit")) {
 
-                            UpdatePost(SelectedPostID, Words.getText().toString(), Header.getText().toString(), Time.getText().toString(), "facebook");
+                            UpdatePost(SelectedPostID, Words.getText().toString(), Header.getText().toString(), Time.getText().toString(), "facebook", userID, username, password);
 
                         }else {
                             //InsertPost();
@@ -190,7 +200,7 @@ public class NewEditPost extends AppCompatActivity {
     }
 
 
-    public void UpdatePost(final String selectedPostID, final String Words, final String Header, final String Time , final String NetworkType) {
+    public void UpdatePost(final String selectedPostID, final String Words, final String Header, final String Time , final String NetworkType, final String uID, final String uName, final String pw) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
 //        if ((Header.getText().toString()).isEmpty() || (Time.getText().toString()).isEmpty() || (Words.getText().toString()).isEmpty()) {
@@ -239,7 +249,14 @@ public class NewEditPost extends AppCompatActivity {
         queue.add(postRequest);
 
         Toast.makeText(getApplicationContext(),"Post updated successfully!\n Post scheduled for ", Toast.LENGTH_LONG);
+
         Intent intent = new Intent(NewEditPost.this, NewScheduler.class);
+        System.out.println("ID: "+uID);
+        System.out.println("UN:  "+uName);
+        System.out.println("PW:   "+pw);
+        intent.putExtra("userID", uID);
+        intent.putExtra("username", uName);
+        intent.putExtra("password", pw);
         startActivity(intent);
 
         //}

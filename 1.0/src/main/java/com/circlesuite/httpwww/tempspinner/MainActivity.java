@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
     //JSONArray myArray;
     int LFV=0;// the last feed value
     @Override
+
+    //TODO: Rename App
+    //TODO: Do Logo
+    //TODO: Clean Button Images
+    //TODO: Animation CLeanup
+    //TODO: App Icon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -86,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
                 sch.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         //
+                        System.out.println("going to scheduler");
+                        System.out.println("ID: "+userID);
+                        System.out.println("UN:  "+username);
+                        System.out.println("PW:   "+password);
                         Intent intent = new Intent(MainActivity.this, NewScheduler.class);
                         intent.putExtra("userID", userID);
                         intent.putExtra("username", username);

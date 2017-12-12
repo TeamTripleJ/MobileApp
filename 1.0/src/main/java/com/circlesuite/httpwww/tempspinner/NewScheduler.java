@@ -47,9 +47,6 @@ public class NewScheduler extends AppCompatActivity {
     ImageButton lin;
     ImageButton twit;
     ImageButton gram;
-    String username;
-    String password;
-    String name;
     TextView firstname;
     //JSONArray myArray;
     int LFV = 0;// the last feed value
@@ -72,10 +69,10 @@ public class NewScheduler extends AppCompatActivity {
     //1 is month
     //2 is year
 
+    //TODO: FIX BUTTONS, FIND OUT WHY IT IS BLANK ON RESTART ACTIVITY, LINKED TO FROM OTHER ACTIVITIES
+
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newscheduler);
@@ -83,7 +80,7 @@ public class NewScheduler extends AppCompatActivity {
         Intent intent = getIntent();
 
         final String username = intent.getExtras().getString("username");
-        final String behavior = intent.getExtras().getString("behavior");
+        //final String behavior = intent.getExtras().getString("behavior");
         final String password = intent.getExtras().getString("password");
         final String userID = intent.getExtras().getString("userID");
 
@@ -125,7 +122,6 @@ public class NewScheduler extends AppCompatActivity {
                 intent.putExtra("userID", userID);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);
-                intent.putExtra("behavior", behavior);
                 startActivity(intent);
             }
         });
@@ -175,13 +171,17 @@ public class NewScheduler extends AppCompatActivity {
 
 
         result = getCurrentDateTime();
+
+        System.out.println("The month is "+result[1]);
+
+
         requestQueue = Volley.newRequestQueue(this);
 
         System.out.println(getMonth(result[1], false));
 
 
         //if user presses button to see PREV month
-        /*PrevMonth.setOnClickListener(new View.OnClickListener() {
+        PrevMonth.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
@@ -196,14 +196,16 @@ public class NewScheduler extends AppCompatActivity {
                 scheduleList.removeAllViews();
                 System.out.println(result[1]);
                 System.out.println("prev was pressed");
-                getPosts(userID);
+                TextView ScheduleMonth = (TextView) findViewById(R.id.MonthTitle);
+                ScheduleMonth.setText(getMonth(result[1], false));
+                getPosts(userID, username, password);
 
             }
-        });*/
+        });
 
 
         //if user presses button to see NEXT month
-        /*NextMonth.setOnClickListener(new View.OnClickListener() {
+        NextMonth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println(result[1]);
                 if (result[1] == 12) {
@@ -214,26 +216,26 @@ public class NewScheduler extends AppCompatActivity {
                 }
                 LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
                 scheduleList.removeAllViews();
-                getPosts(userID);
+                TextView ScheduleMonth = (TextView) findViewById(R.id.MonthTitle);
+                ScheduleMonth.setText(getMonth(result[1], false));
+                getPosts(userID, username, password);
                 //UpdatePost();
             }
-        });*/
+        });
 
-
-        //System.out.println("req queue being set");
-        //requestQueue = Volley.newRequestQueue(this);
         //System.out.println("REQ QUEUE SET");
 
         if (ActivityInitialStart == true) {
             ActivityInitialStart = false;
-            result[1]=10;
-            getPosts(userID);
+            TextView ScheduleMonth = (TextView) findViewById(R.id.MonthTitle);
+            ScheduleMonth.setText(getMonth(result[1], false));
+            getPosts(userID, username, password);
         }
 
     }
 
 
-    public void fillSchedule(JSONArray PostArray, final String userID) {
+    public void fillSchedule(JSONArray PostArray, final String uID, final String uName, final String pw) {
         LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
         scheduleList.removeAllViews();
 
@@ -241,8 +243,7 @@ public class NewScheduler extends AppCompatActivity {
         String newDate = "nah";
         View DayContainer = null;
 
-        TextView ScheduleMonth = (TextView) findViewById(R.id.MonthTitle);
-        ScheduleMonth.setText(getMonth(result[1], false));
+
 
         if (PostArray == null) {
             System.out.println("nah fam its null");
@@ -332,11 +333,16 @@ public class NewScheduler extends AppCompatActivity {
                     post.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
 
+                            System.out.println("sending info to new/edit post");
+                            System.out.println("ID: "+uID);
+                            System.out.println("UN:  "+uName);
+                            System.out.println("PW:   "+pw);
+
                             Intent intent = new Intent(NewScheduler.this, NewEditPost.class);
                             intent.putExtra("behavior", "edit");
-                            intent.putExtra("userID", userID);
-                            intent.putExtra("username", username);
-                            intent.putExtra("password", password);
+                            intent.putExtra("userID", uID);
+                            intent.putExtra("username", uName);
+                            intent.putExtra("password", pw);
                             intent.putExtra("Post", PostObj.toString());
                             startActivity(intent);
 
@@ -358,7 +364,7 @@ public class NewScheduler extends AppCompatActivity {
 
 
     //public void getPosts(int[] date, int userID){
-    public void getPosts(final String userID) {
+    public void getPosts(final String uID, final String uName, final String pw) {
         RequestQueue queue = Volley.newRequestQueue(this);
         //String url ="http://aqueous-americans.000webhostapp.com/1NewPostList.php";
         String url = "http://cse120.xyz/1NewPostList.php";
@@ -387,7 +393,7 @@ public class NewScheduler extends AppCompatActivity {
                                 } else {
                                     myArray = null;
                                 }
-                                fillSchedule(myArray, userID);
+                                fillSchedule(myArray, uID, uName, pw);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -404,7 +410,7 @@ public class NewScheduler extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("userid", "" + userID + "");
+                params.put("userid", "" + uID + "");
                 params.put("Time", "'" + result[2] + "-" + result[1] + "%'");
 
                 params.put("action", "2");
