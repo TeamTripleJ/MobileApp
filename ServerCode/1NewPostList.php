@@ -74,8 +74,8 @@
             //echo "Hello Jackson";
            
       }
-      if($action==2)
-        {
+      //if($action==2)
+        //{
             $userid=$_POST['userid'];
             $PostID=$_POST['post_id'];
             $Time=$_POST['Time'];
@@ -151,8 +151,8 @@
             echo $myArr;
             //echo "Hello Jackson";
            
-      }
-      echo "Hello World";
+     // }
+     // echo "Hello World";
         // echo "Hello Jackson";
 ?>
 

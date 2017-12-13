@@ -10,7 +10,7 @@
 			$words=$_POST['words'];
                         $header=$_POST['header'];
                         $photoid=$_POST['photo_id'];
-                        $Postid=$_POST['postid'];
+                        $postid=$_POST['postid'];
                         $caption=$_POST['caption'];
                         $image=$_POST['image'];
                         $network_type=$_POST['network_type']; 
@@ -21,7 +21,7 @@
                            Header=$header
                            Time=$Time
                            network_type=$Time
-                           WHERE post_id =$Postid ";
+                           WHERE post_id =$postid ";
                         $conn->query($sql);
                         $conn->close();
 ?>
