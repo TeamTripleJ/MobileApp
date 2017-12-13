@@ -157,16 +157,17 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT)
                         .show();*/
                         //System.out.println(mySpinner.getSelectedItem().toString());
+                        //if (new String("Account Settings").equals(mySpinner.getSelectedItem().toString()) && count != 0) {
                         if (new String("Account Settings").equals(mySpinner.getSelectedItem().toString()) && count != 0) {
                             //Intent i = new Intent(this, Main2Activity.class);
-                            Intent intent = new Intent(MainActivity.this, ManageAcc.class);
-                            startActivity(intent);
+                            Intent intent2 = new Intent(MainActivity.this, ManageAcc.class);
+                            startActivity(intent2);
                         } else if (new String("Support").equals(mySpinner.getSelectedItem().toString())) {
                             System.out.println(mySpinner.getSelectedItem().toString());
-                            Toast.makeText(MainActivity.this,
-                                    "Support button was clicked",
-                                    Toast.LENGTH_SHORT)
-                                    .show();
+                            //Toast.makeText(MainActivity.this,
+                            //        "Support button was clicked",
+                            //        Toast.LENGTH_SHORT)
+                            //        .show();
                         } else if (new String("Log Out").equals(mySpinner.getSelectedItem().toString())) {
                             System.out.println(mySpinner.getSelectedItem().toString());
                             Toast.makeText(MainActivity.this,
@@ -282,11 +283,8 @@ public class MainActivity extends AppCompatActivity {
                 //}else if(postNetwork=="twitter"){
                 //
                 //}
-                //post ID is saved to tag, so that if it is clicked, the postID if clicked element is
-                //sent to the edit post along with the intent- this is queried by a method in Edit Post to get
-                //that post's data and display it, so it can be edited
-                //post.setTag(PostObj.getString("PostID"));
-                //oldDay=postDay;
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

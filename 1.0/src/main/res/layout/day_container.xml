@@ -19,15 +19,15 @@
             android:layout_gravity="top">
 
             <TextView
-                android:text="OCT"
-                android:layout_height="wrap_content"
                 android:id="@+id/Month"
                 android:layout_width="match_parent"
-                android:textAlignment="gravity"
-                android:textStyle="normal|bold"
-                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="top"
                 android:gravity="top"
-                android:foregroundGravity="top" />
+                android:text="OCT"
+                android:textAlignment="gravity"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:text="12"

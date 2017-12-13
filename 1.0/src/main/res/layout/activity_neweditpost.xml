@@ -241,7 +241,7 @@
 
             <LinearLayout
                 android:layout_width="150dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp"
@@ -253,10 +253,10 @@
                     android:id="@+id/btnPostImageSelect"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
                     android:layout_weight="0.93"
-                    app:srcCompat="@mipmap/ic_launcher" />
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -266,19 +266,27 @@
                     android:textAlignment="textStart"
                     android:textSize="18sp" />
 
-                <RadioGroup
-                    android:id="@+id/NetworkSelect"
-                    android:layout_width="169dp"
-                    android:layout_height="161dp" />
+                <EditText
+                    android:id="@+id/networkField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.93"
+                    android:ems="10"
+                    android:hint="Post Network"
+                    android:inputType="textPersonName"
+                    android:textStyle="italic" />
+
             </LinearLayout>
 
         </LinearLayout>
 
         <Button
-            android:text="Submit"
+            android:id="@+id/SubmitPostButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/SubmitPostButton" />
+            android:background="@android:color/holo_blue_dark"
+            android:text="Submit"
+            android:textColor="@android:color/background_light" />
 
     </LinearLayout>
 

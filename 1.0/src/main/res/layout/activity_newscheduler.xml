@@ -53,6 +53,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 app:srcCompat="@drawable/home"
                 tools:layout_editor_absoluteX="91dp"
                 tools:layout_editor_absoluteY="16dp" />
@@ -74,6 +76,8 @@
                 android:layout_height="42dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 android:background="#ffffff"
                 app:srcCompat="@drawable/schedule"
                 tools:layout_editor_absoluteX="233dp"
@@ -85,6 +89,8 @@
                 android:layout_height="43dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 android:background="#ffffff"
                 app:srcCompat="@drawable/refresh"
                 tools:layout_editor_absoluteX="304dp"
@@ -133,7 +139,8 @@
                 android:layout_width="64dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="bck" />
+                android:text="BACK"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/MonthTitle"
@@ -143,7 +150,7 @@
                 android:gravity="center"
                 android:text="TextView"
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button
@@ -152,18 +159,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="fwd" />
+                android:text="NEXT"
+                android:textSize="12sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/monthTitle5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="16.97"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textSize="24sp" />
 
         <FrameLayout
             android:layout_width="match_parent"

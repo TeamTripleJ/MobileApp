@@ -87,9 +87,6 @@ public class Login extends AppCompatActivity {
 
                                 if(name!=null)
                                 {
-                                    System.out.println("ID: "+userID);
-                                    System.out.println("UN:  "+username);
-                                    System.out.println("PW:   "+password);
                                     Intent intent = new Intent(Login.this, MainActivity.class);
                                     intent.putExtra("username", username);
                                     intent.putExtra("password", password);

@@ -1,6 +1,8 @@
 package com.circlesuite.httpwww.tempspinner;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -145,10 +147,10 @@ public class NewScheduler extends AppCompatActivity {
                     startActivity(intent);
                 } else if (new String("Support").equals(mySpinner.getSelectedItem().toString())) {
                     System.out.println(mySpinner.getSelectedItem().toString());
-                    Toast.makeText(NewScheduler.this,
-                            "Support button was clicked",
-                            Toast.LENGTH_SHORT)
-                            .show();
+                    //Toast.makeText(NewScheduler.this,
+                     //       "Support button was clicked",
+                      //      Toast.LENGTH_SHORT)
+                       //     .show();
                 } else if (new String("Log Out").equals(mySpinner.getSelectedItem().toString())) {
                     System.out.println(mySpinner.getSelectedItem().toString());
                     Toast.makeText(NewScheduler.this,
@@ -208,10 +210,10 @@ public class NewScheduler extends AppCompatActivity {
         NextMonth.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println(result[1]);
-                if (result[1] == 12) {
+                if (result[1] == 12){
                     result[1] = 1;
                     result[2]++;
-                } else {
+                }else{
                     result[1]++;
                 }
                 LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
@@ -235,6 +237,7 @@ public class NewScheduler extends AppCompatActivity {
     }
 
 
+    @SuppressLint("ResourceAsColor")
     public void fillSchedule(JSONArray PostArray, final String uID, final String uName, final String pw) {
         LinearLayout scheduleList = (LinearLayout) findViewById(R.id.ScheduleContainer);
         scheduleList.removeAllViews();
@@ -295,8 +298,12 @@ public class NewScheduler extends AppCompatActivity {
 
 
                         //check if the day container is for the current day. If so, it will be highlighted.
-                        if (postMonth == result[1] && postDay == result[0]) {
-                            //DayContainer.setBackgroundColor();
+
+                        int[] currentDate = new int[3];
+                        currentDate=getCurrentDateTime();
+                        if (postMonth == currentDate[1] && postDay == currentDate[0]) {
+                            //DayContainer.setBackgroundColor(R.color.HighlightOrange);
+
                         }
                     }
 
@@ -314,7 +321,21 @@ public class NewScheduler extends AppCompatActivity {
                     TextView BodyText = (TextView) PostContainer.findViewById(R.id.postBody);
                     TextView PostTime = (TextView) PostContainer.findViewById(R.id.postTime);
                     ImageView NetworkIcon = (ImageView) PostContainer.findViewById(R.id.postNetworkIcon);
-                    ImageView MediaTypeIcon = (ImageView) PostContainer.findViewById(R.id.postContentTypeIcon);
+                    //ImageView MediaTypeIcon = (ImageView) PostContainer.findViewById(R.id.postContentTypeIcon);
+
+                    if(postNetwork.equals("facebook")){
+                        NetworkIcon.setImageResource(R.drawable.fb1);
+                        postBG.setBackgroundColor(Color.parseColor("#b0bcd5"));
+                    }else if(postNetwork.equals("twitter")){
+                        NetworkIcon.setImageResource(R.drawable.twitter);
+                        postBG.setBackgroundColor(Color.parseColor("#c0deed"));
+                    }else if(postNetwork.equals("linkedin")){
+                        NetworkIcon.setImageResource(R.drawable.in);
+                        postBG.setBackgroundColor(Color.parseColor("#c6b5d5"));;
+                    }else if(postNetwork.equals("instagram")){
+                        NetworkIcon.setImageResource(R.drawable.gram);
+                        postBG.setBackgroundColor(Color.parseColor("#EAB1C0"));;
+                    }
 
                     //now SET THE CONTENT OF THE POST CONTAINER
                     HeaderText.setText(postHeader);
